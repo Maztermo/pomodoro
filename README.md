@@ -1,16 +1,11 @@
 # pomodoro
 
-A new Flutter project.
+A pomodoro timer.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project was made for the purpose of use with OBS and Twitch streams. 
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+To add it to your stream:
+- Add browser source
+    - In the properties set https://mazpom.web.app as the URL and use 1200 width x 480 height.
