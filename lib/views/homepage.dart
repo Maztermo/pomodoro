@@ -4,12 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:pomodoro/views/set_timer_preset_button.dart';
-
-/// TODO: remove the container and just set the whole background color.
-/// that way the user can decide the ratio of the pomo timer.
-/// TODO: add option to change font
-/// TODO: add option to make font different size
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -122,10 +118,27 @@ class _HomePageState extends State<HomePage> {
       final seconds = myDuration.inSeconds - reduceSecondsBy;
       if (seconds == 0) {
         stopTimer();
+        player.play();
+        myDuration = Duration(seconds: seconds);
       } else {
         myDuration = Duration(seconds: seconds);
       }
     });
+  }
+
+  late AudioPlayer player;
+
+  @override
+  void initState() {
+    player = AudioPlayer();
+    player.setAsset('assets/audio/heylisten.mp3');
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
   }
 
   @override
@@ -205,7 +218,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 if (isOnPlayer && isBreakPom)
                   Text(
-                    "Break Pom",
+                    "Break Timer",
                     style: GoogleFonts.getFont(
                       selectedFontFamily,
                       fontSize: 72,
@@ -218,28 +231,30 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.symmetric(horizontal: 80.0),
                     child: Row(
                       children: [
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              isBreakPom = !isBreakPom;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(width: 1),
-                                color: backgroundColor,
-                                borderRadius: BorderRadius.circular(4)),
-                            width: 270,
-                            height: 132,
-                            child: Center(
-                                child: Text(
-                              (isBreakPom) ? "Break" : "Pom",
-                              style: GoogleFonts.getFont(
-                                selectedFontFamily,
-                                fontSize: 72,
-                                color: mainColor,
-                              ),
-                            )),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                isBreakPom = !isBreakPom;
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(width: 1),
+                                  color: backgroundColor,
+                                  borderRadius: BorderRadius.circular(4)),
+                              width: 270,
+                              height: 132,
+                              child: Center(
+                                  child: Text(
+                                (isBreakPom) ? "Break timer" : "Pom timer",
+                                style: GoogleFonts.getFont(
+                                  selectedFontFamily,
+                                  fontSize: 64,
+                                  color: mainColor,
+                                ),
+                              )),
+                            ),
                           ),
                         ),
                         const SizedBox(width: 15),
@@ -264,7 +279,7 @@ class _HomePageState extends State<HomePage> {
                                 hintText: 'Custom:',
                                 hintStyle: GoogleFonts.getFont(
                                   selectedFontFamily,
-                                  fontSize: 72,
+                                  fontSize: 64,
                                   color: mainColor,
                                 ),
                               ),
@@ -280,7 +295,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
-                        const Spacer(),
+                        const SizedBox(width: 15),
                         InkWell(
                           onTap: () => changeColor(main: true),
                           child: Container(
