@@ -32,3 +32,4 @@ flutter:
  
   assets:
     - assets/audio/heylisten.mp3
+    - assets/audio/finished.mp3
