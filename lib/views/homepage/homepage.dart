@@ -108,14 +108,6 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  Future playAudioPlayer() async {
-    await player.setVolume(0.3);
-    await player.play();
-    await player.pause();
-    await player.setClip(
-        start: Duration(seconds: 0), end: Duration(seconds: 3));
-  }
-
   void setCountDown() {
     const reduceSecondsBy = 1;
     setState(() {
@@ -154,10 +146,18 @@ class _HomePageState extends State<HomePage> {
 
   late AudioPlayer player;
 
+  Future playAudioPlayer() async {
+    await player.setAsset('assets/audio/finished.mp3');
+    await player.setVolume(0.4);
+    await player.play();
+    await player.pause();
+    await player.setClip(
+        start: Duration(seconds: 0), end: Duration(seconds: 3));
+  }
+
   @override
   void initState() {
     player = AudioPlayer();
-    player.setAsset('audio/finished.mp3');
     super.initState();
   }
 
